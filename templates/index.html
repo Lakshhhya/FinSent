@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinSent - Financial Sentiment Analysis</title>
+    <!-- Modern dependencies -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="text-center mb-5">
+            <h1 class="display-4">
+              <i class="fas fa-chart-line me-2"></i>FinSent
+            </h1>
+            <p class="lead text-light">Advanced Financial Sentiment Analysis</p>
+          </div>
+
+          <div class="card main-card">
+            <div class="card-body">
+              <form id="predictionForm">
+                <div class="mb-4">
+                  <label for="textInput" class="form-label">
+                    <i class="fas fa-pen me-2"></i>Enter Financial Text
+                  </label>
+                  <textarea 
+                    class="form-control"
+                    id="textInput"
+                    name="text"
+                    rows="4"
+                    placeholder="Enter financial news, statement, or analysis here..."
+                    required
+                  ></textarea>
+                </div>
+
+                <div class="mb-4">
+                  <label for="modelSelect" class="form-label">
+                    <i class="fas fa-brain me-2"></i>Select Model
+                  </label>
+                  <select class="form-select" id="modelSelect" name="model" required>
+                    <option value="bert">FinBERT (Recommended)</option>
+                    <option value="logistic">Logistic Regression</option>
+                    <option value="svc">Support Vector Machine</option>
+                    <option value="nb">Naive Bayes</option>
+                  </select>
+                </div>
+
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fas fa-search me-2"></i>Analyze Sentiment
+                  </button>
+                </div>
+              </form>
+
+              <div id="result" class="mt-4" style="display: none;">
+                <div class="result-content">
+                  <div class="sentiment-icon text-center mb-3">
+                    <i class="fas fa-3x"></i>
+                  </div>
+                  <h3 class="text-center sentiment-text mb-3"></h3>
+                  <div class="confidence-bar">
+                    <div class="progress mb-2">
+                      <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                    </div>
+                    <p class="text-center confidence-text"></p>
+                  </div>
+                  <p class="text-center model-text mt-3"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modern JS dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $("#predictionForm").on("submit", function(e) {
+          e.preventDefault();
+          const $result = $("#result");
+          const $button = $(this).find('button[type="submit"]');
+          
+          // Show loading state
+          $button.html('<span class="spinner-border spinner-border-sm me-2"></span>Analyzing...').prop('disabled', true);
+          $result.hide();
+
+          $.ajax({
+            url: "/predict",
+            method: "POST",
+            data: $(this).serialize(),
+            success: function(response) {
+              const sentiment = response.prediction;
+              const confidence = parseFloat(response.confidence);
+              
+              // Set icon and color based on sentiment
+              let iconClass, colorClass;
+              if (sentiment === "positive") {
+                iconClass = "fa-smile text-success";
+                colorClass = "bg-success";
+              } else if (sentiment === "negative") {
+                iconClass = "fa-frown text-danger";
+                colorClass = "bg-danger";
+              } else {
+                iconClass = "fa-meh text-warning";
+                colorClass = "bg-warning";
+              }
+
+              // Update result content
+              $result.find('.sentiment-icon i').attr('class', `fas ${iconClass}`);
+              $result.find('.sentiment-text').text(`${sentiment.charAt(0).toUpperCase() + sentiment.slice(1)} Sentiment`);
+              $result.find('.progress-bar').attr('class', `progress-bar ${colorClass}`).css('width', `${confidence * 100}%`);
+              $result.find('.confidence-text').text(`Confidence: ${(confidence * 100).toFixed(1)}%`);
+              $result.find('.model-text').html(`<small class="text-muted">Model: ${response.model}</small>`);
+              
+              // Show result with animation
+              $result.fadeIn();
+            },
+            error: function() {
+              $result.html(`
+                <div class="alert alert-danger">
+                  <i class="fas fa-exclamation-circle me-2"></i>
+                  Error during analysis. Please try again.
+                </div>
+              `).fadeIn();
+            },
+            complete: function() {
+              // Reset button state
+              $button.html('<i class="fas fa-search me-2"></i>Analyze Sentiment').prop('disabled', false);
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
