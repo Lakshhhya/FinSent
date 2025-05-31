@@ -100,10 +100,10 @@ Output: {
 Here are some examples of FinSent in action:
 
 ### Positive Sentiment Analysis
-![Positive Sentiment Analysis](./assets/positive_sentiment.png)
+![Positive Sentiment Analysis](./assets/Positive%20Sentement.png)
 
 ### Negative Sentiment Analysis
-![Negative Sentiment Analysis](./assets/negative_sentiment.png)
+![Negative Sentiment Analysis](./assets/Negative%20Sentiment.png)
 
 ## 🤝 Contributing
 
