@@ -89,18 +89,28 @@ def preprocess_text(text):
 def predict_with_sklearn(model, vector, text):
     """Make predictions using scikit-learn models."""
     try:
+        logger.info(f"Vectorizing text for prediction...")
         vec = vector.transform([text])
+        logger.info(f"Text vectorized successfully. Shape: {vec.shape}")
+        
         if hasattr(model, 'predict_proba'):
+            logger.info(f"Using predict_proba for model: {type(model).__name__}")
             probs = model.predict_proba(vec)[0]
+            logger.info(f"Prediction probabilities shape: {probs.shape}")
         else:
             # For models without predict_proba (e.g., SVC)
+            logger.info(f"Using decision_function for model: {type(model).__name__}")
             scores = model.decision_function(vec)[0]
             exp_scores = np.exp(scores - np.max(scores))
             probs = exp_scores / exp_scores.sum()
+            
         idx = np.argmax(probs)
+        logger.info(f"Predicted class index: {idx}, Confidence: {float(probs[idx])}")
         return idx, float(probs[idx])
     except Exception as e:
         logger.error(f"Error in sklearn prediction: {str(e)}")
+        logger.error(f"Model type: {type(model).__name__}")
+        logger.error(f"Vector shape: {getattr(vector, 'shape', 'unknown')}")
         raise
 
 def predict_with_bert(text):
@@ -110,8 +120,16 @@ def predict_with_bert(text):
         with torch.no_grad():
             outputs = bert_model(**inputs)
             probs = F.softmax(outputs.logits, dim=-1).cpu().numpy()[0]
+        
+        # Get the predicted class and confidence
         idx = int(np.argmax(probs))
-        return idx, float(probs[idx])
+        confidence = float(probs[idx])
+        
+        # Map the model's numeric output to sentiment labels
+        sentiment_map = {0: "positive", 1: "negative", 2: "neutral"}
+        predicted_sentiment = sentiment_map[idx]
+        
+        return predicted_sentiment, confidence
     except Exception as e:
         logger.error(f"Error in BERT prediction: {str(e)}")
         raise
@@ -144,7 +162,7 @@ def predict():
         # Make prediction based on selected model
         try:
             if model_name == 'bert':
-                idx, conf = predict_with_bert(raw_text)  # Use raw text for BERT
+                sentiment, conf = predict_with_bert(raw_text)  # Use raw text for BERT
             else:
                 model = {
                     'logistic': logistic_model,
@@ -152,8 +170,7 @@ def predict():
                     'nb': nb_model
                 }[model_name]
                 idx, conf = predict_with_sklearn(model, vectorizer, text)
-
-            sentiment = label_encoder.inverse_transform([idx])[0]
+                sentiment = label_encoder.inverse_transform([idx])[0]
             
             return jsonify({
                 'prediction': sentiment,

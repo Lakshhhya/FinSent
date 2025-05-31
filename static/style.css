@@ -57,6 +57,12 @@ body {
     transition: all 0.3s ease;
 }
 
+.form-select option {
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+    padding: 0.5rem;
+}
+
 .form-control:focus, .form-select:focus {
     background-color: rgba(255, 255, 255, 0.1);
     border-color: var(--primary-color);
