@@ -115,10 +115,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Hugging Face](https://huggingface.co/) for transformer models
 - [Flask](https://flask.palletsprojects.com/) for the web framework
 
-## 📧 Contact
-
-For questions and feedback, please open an issue or contact:
-[Your Contact Information]
-
 ---
 Made with ❤️ for financial analysis
