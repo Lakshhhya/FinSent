@@ -95,6 +95,16 @@ Output: {
 }
 ```
 
+## 📸 Working Prototype
+
+Here are some examples of FinSent in action:
+
+### Positive Sentiment Analysis
+![Positive Sentiment Analysis](./assets/positive_sentiment.png)
+
+### Negative Sentiment Analysis
+![Negative Sentiment Analysis](./assets/negative_sentiment.png)
+
 ## 🤝 Contributing
 
 Contributions are welcome! Feel free to:
