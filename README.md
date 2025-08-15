@@ -103,7 +103,7 @@ Here are some examples of FinSent in action:
 ![Positive Sentiment Analysis](sentiment-analysis/assets/Positive%20Sentement.png)
 
 ### Negative Sentiment Analysis
-![Negative Sentiment Analysis](./assets/Negative%20Sentiment.png)(sentiment-analysis/assets/Negative%20Sentiment.png)
+![Negative Sentiment Analysis](sentiment-analysis/assets/Negative%20Sentiment.png)
 
 
 ## 🤝 Contributing
