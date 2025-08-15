@@ -128,4 +128,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Flask](https://flask.palletsprojects.com/) for the web framework
 
 ---
-Made with ❤️ for financial analysis
+Made with love for financial analysis
