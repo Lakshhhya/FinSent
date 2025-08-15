@@ -100,10 +100,11 @@ Output: {
 Here are some examples of FinSent in action:
 
 ### Positive Sentiment Analysis
-![Positive Sentiment Analysis](./assets/positive_sentiment.png)
+![Positive Sentiment Analysis](./assets/Positive%20Sentement.png)
 
 ### Negative Sentiment Analysis
-![Negative Sentiment Analysis](./assets/negative_sentiment.png)
+![Negative Sentiment Analysis](./assets/Negative%20Sentiment.png)
+
 
 ## 🤝 Contributing
 
@@ -115,13 +116,15 @@ Contributions are welcome! Feel free to:
 4. Push to the branch
 5. Open a Pull Request
 
+
 ## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+
 ## 🙏 Acknowledgments
 
-- [ProsusAI](https://github.com/ProsusAI/finbert) for the FinBERT model
+
 - [Hugging Face](https://huggingface.co/) for transformer models
 - [Flask](https://flask.palletsprojects.com/) for the web framework
 
