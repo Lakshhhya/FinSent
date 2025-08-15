@@ -43,12 +43,12 @@ pip install -r requirements.txt
 
 3. Run the application:
 ```bash
-python app.py
+python -m streamlit run app.py
 ```
 
 4. Open your browser and navigate to:
 ```
-http://localhost:5000
+http://localhost:8503
 ```
 
 ## 🎮 Usage
@@ -100,10 +100,10 @@ Output: {
 Here are some examples of FinSent in action:
 
 ### Positive Sentiment Analysis
-![Positive Sentiment Analysis](./assets/Positive%20Sentement.png)
+![Positive Sentiment Analysis](sentiment-analysis/assets/Positive%20Sentement.png)
 
 ### Negative Sentiment Analysis
-![Negative Sentiment Analysis](./assets/Negative%20Sentiment.png)
+![Negative Sentiment Analysis](./assets/Negative%20Sentiment.png)(sentiment-analysis/assets/Negative%20Sentiment.png)
 
 
 ## 🤝 Contributing
